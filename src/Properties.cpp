@@ -28,39 +28,43 @@ Properties::Properties() {
 }
 
 Properties::~Properties() {
+    _keys.clear();
+    _properties.clear();
 }
 
 std::string Properties::GetProperty(const std::string& key) const {
-    if (properties.find(key) == properties.end()) {
+    auto fdIter = _properties.find(key);
+    if (fdIter == _properties.end()) {
         throw PropertyNotFoundException(key + " does not exist");
     }
-    return properties.at(key);
+    return fdIter->second;
 }
 
 std::string Properties::GetProperty(const std::string& key, const std::string& defaultValue) const {
-    if (properties.find(key) == properties.end()) {
+    auto fdIter = _properties.find(key);
+    if (fdIter == _properties.end()) {
         return defaultValue;
     }
-    return properties.at(key);
+    return fdIter->second;
 }
 
 std::vector<std::string> Properties::GetPropertyNames() const {
-    return keys;
+    return _keys;
 }
 
 void Properties::AddProperty(const std::string& key, const std::string& value) {
-    if (properties.find(key) == properties.end()) {
-        keys.push_back(key);
+    auto isInsert = _properties.insert_or_assign(key, value);
+    if (isInsert.second) {
+        _keys.push_back(key);
     }
-    properties[key] = value;
 }
 
 void Properties::RemoveProperty(const std::string& key) {
-    if (properties.find(key) == properties.end()) {
+    size_t eleSize = _properties.erase(key);
+    if (0 == eleSize) {
         throw PropertyNotFoundException(key + " does not exist");
     }
-    keys.erase(std::remove(keys.begin(), keys.end(), key), keys.end());
-    properties.erase(key);
+    _keys.erase(std::remove(_keys.begin(), _keys.end(), key), _keys.end());
 }
 
 } /* namespace cppproperties */

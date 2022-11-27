@@ -11,7 +11,7 @@ CMakeFiles
 cmake_install.cmake
 
 # cpp-properties
-build/
+build*/
 libgtest.a
 libgtest_main.a
 Makefile

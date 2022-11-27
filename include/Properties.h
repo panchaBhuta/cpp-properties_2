@@ -68,8 +68,8 @@ public:
     void RemoveProperty(const std::string& key);
 private:
     // to preserve the order
-    std::vector<std::string> keys;
-    std::map<std::string, std::string> properties;
+    std::vector<std::string> _keys;
+    std::map<std::string, std::string> _properties;
 };
 
 } /* namespace cppproperties */
