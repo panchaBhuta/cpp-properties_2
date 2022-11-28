@@ -15,6 +15,11 @@ key1=value1
 key2=value2
 key3=value3
 key4=value4
+dir1=dname1
+dir2=dname2
+dir3=dname3
+dir123=${dir1}/${dir2}/${dir3}
+dir123123=${dir123}/${dir123}
 ```
 
 __output.properties__
@@ -39,6 +44,14 @@ void TestRead() {
     }
 }
 
+void TestPropertyExpanded() {
+    Properties props = PropertiesParser::Read("input.properties");
+    vector<string> names = props.GetPropertyNames();
+    for (vector<string>::const_iterator i = names.begin(); i != names.end(); ++i) {
+        cout << *i << " = " << props.GetPropertyExpanded(*i) << endl;
+    }
+}
+
 void TestWrite() {
     Properties props;
     props.AddProperty("key100", "value100");
@@ -49,6 +62,7 @@ void TestWrite() {
 
 int main() {
     TestRead();
+    TestPropertyExpanded();
     TestWrite();
     return 0;
 }
