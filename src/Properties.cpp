@@ -60,11 +60,34 @@ void Properties::AddProperty(const std::string& key, const std::string& value) {
 }
 
 void Properties::RemoveProperty(const std::string& key) {
-    size_t eleSize = _properties.erase(key);
+    std::map<std::string, std::string>::size_type eleSize = _properties.erase(key);
     if (0 == eleSize) {
         throw PropertyNotFoundException(key + " does not exist");
     }
     _keys.erase(std::remove(_keys.begin(), _keys.end(), key), _keys.end());
+}
+
+std::string Properties::_GetPropertyExpanded(const std::string& key, const size_t iter) const {
+    if( iter > 10) {
+        // to prevent infinite cyclic expansion
+        throw PropertiesException("recursion expansion at key='" + key + "' reached more than 10, which is not supported.");
+    }
+
+    std::string val = GetProperty(key);
+    std::string::size_type ns = val.find("${");
+    while (ns != std::string::npos) {
+        ns+=2;
+        const std::string::size_type ne = val.find("}", ns);
+        if (ne != std::string::npos) {
+            const std::string innerKey = val.substr(ns,(ne-ns));
+            const std::string innerVal = _GetPropertyExpanded(innerKey,iter+1);
+            val = val.replace(ns-2,(ne-ns)+3,innerVal);
+        } else {
+            throw PropertiesException("closing brace '}' not found in value='"+val+"'");
+        }
+        ns = val.find("${", ns-2);
+    }
+    return val;
 }
 
 } /* namespace cppproperties */

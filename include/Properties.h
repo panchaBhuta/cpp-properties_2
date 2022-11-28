@@ -37,12 +37,26 @@ public:
     virtual ~Properties();
 
     /**
-     * Gets the property value from a given key.
+     * Gets the raw property value from a given key. If the value contains any
+     * '${inner-key}' , those keys are not replaced.
      *
      * This method throws a PropertyNotFoundException when a given key does not
      * exist.
      */
     std::string GetProperty(const std::string& key) const;
+
+    /**
+     * Gets the expanded property value from a given key. If the value contains any
+     * '${inner-key}' , those keys are replaced with their values.
+     *
+     * This method throws a PropertyNotFoundException when a given key does not
+     * exist.
+     * PropertyException when closing brace '}' not found in value.
+     * PropertyException when recursive inner expansion level is more than 10.
+     */
+    std::string GetPropertyExpanded(const std::string& key) const {
+        return _GetPropertyExpanded(key,0);
+    }
 
     /**
      * Gets the property value from a given key. Use a default value if not found.
@@ -67,6 +81,8 @@ public:
      */
     void RemoveProperty(const std::string& key);
 private:
+    std::string _GetPropertyExpanded(const std::string& key, size_t iter) const;
+
     // to preserve the order
     std::vector<std::string> _keys;
     std::map<std::string, std::string> _properties;

@@ -34,6 +34,12 @@ TEST(PropertiesParser, TestRead) {
 
     EXPECT_EQ("bar", props.GetProperty("name2"));
     EXPECT_EQ("bye", props.GetProperty("msg2"));
+
+    EXPECT_EQ("dname1", props.GetProperty("dir1"));
+    EXPECT_EQ("dname2", props.GetProperty("dir2"));
+    EXPECT_EQ("dname3", props.GetProperty("dir3"));
+    EXPECT_EQ("dname1/dname2/dname3", props.GetPropertyExpanded("dir123"));
+    EXPECT_EQ("dname1/dname2/dname3/dname1/dname2/dname3", props.GetPropertyExpanded("dir123123"));
 }
 
 TEST(PropertiesParser, TestReadInvalidFile) {
