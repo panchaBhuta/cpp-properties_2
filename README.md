@@ -1,4 +1,4 @@
-# cpp-properties
+# cpp-properties (Recursive-Variable)
 A small C++ Java properties parser.
 
 ## How to build
