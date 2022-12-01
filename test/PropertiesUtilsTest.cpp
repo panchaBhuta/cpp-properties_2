@@ -20,7 +20,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include "PropertiesUtils.h"
+#include "cpp-properties/PropertiesUtils.h"
 
 using namespace testing;
 using namespace cppproperties;

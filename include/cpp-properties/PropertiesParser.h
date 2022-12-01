@@ -25,7 +25,8 @@
 
 #include <string>
 #include <exception>
-#include "Properties.h"
+
+#include <cpp-properties/Properties.h>
 
 namespace cppproperties {
 

@@ -5,9 +5,9 @@ project(cppproperties VERSION 2.0.01.0)
 option(ENABLE_TEST "Build all tests." OFF)
 
 add_library(cppproperties
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Properties.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/PropertiesParser.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/PropertiesUtils.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp-properties/Properties.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp-properties/PropertiesParser.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp-properties/PropertiesUtils.cpp)
 
 target_include_directories(cppproperties
     PUBLIC
@@ -57,7 +57,7 @@ configure_package_config_file(
     INSTALL_DESTINATION lib/cmake/cppproperties/)
 
 include(GenerateExportHeader)
-generate_export_header(cppproperties)
+generate_export_header(cppproperties EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/cpp-properties/exports/cppproperties_export.h)
 
 install(TARGETS cppproperties
     EXPORT cpppropertiesTargets
@@ -68,7 +68,7 @@ install(TARGETS cppproperties
 install(DIRECTORY include/ DESTINATION include)
 
 install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/cppproperties_export.h DESTINATION include)
+    ${CMAKE_CURRENT_BINARY_DIR}/cpp-properties/exports/cppproperties_export.h DESTINATION include/cpp-properties/exports/)
 
 install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/cmake/cpppropertiesConfig.cmake
@@ -89,11 +89,15 @@ if(ENABLE_TEST)
 
     find_package(GTest 1.7.0)
     if(GTEST_FOUND)
-        target_include_directories(cppproperties_unittests PUBLIC ${GTEST_INCLUDE_DIRS})
+        target_include_directories(cppproperties_unittests
+                                        PUBLIC ${GTEST_INCLUDE_DIRS}
+                                        PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
         target_link_libraries(cppproperties_unittests PRIVATE ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
     else()
         add_subdirectory(lib/gtest-1.7.0)
-        target_include_directories(cppproperties_unittests PUBLIC ${gtest_SOURCE_DIR}/include)
+        target_include_directories(cppproperties_unittests
+                                        PUBLIC ${gtest_SOURCE_DIR}/include
+                                        PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
         target_link_libraries(cppproperties_unittests PRIVATE gtest gtest_main)
     endif()
 

@@ -21,7 +21,7 @@
 
 #include <gtest/gtest.h>
 #include <algorithm>
-#include "Properties.h"
+#include "cpp-properties/Properties.h"
 
 using namespace std;
 using namespace testing;

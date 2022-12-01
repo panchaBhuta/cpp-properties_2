@@ -26,8 +26,10 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "PropertiesException.h"
-#include "PropertyNotFoundException.h"
+
+#include <cpp-properties/exports/cppproperties_export.h>
+#include <cpp-properties/PropertiesException.h>
+#include <cpp-properties/PropertyNotFoundException.h>
 
 namespace cppproperties {
 

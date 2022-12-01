@@ -22,7 +22,7 @@
 #include <gtest/gtest.h>
 #include <cstdio>
 #include <algorithm>
-#include "PropertiesParser.h"
+#include "cpp-properties/PropertiesParser.h"
 
 using namespace testing;
 using namespace cppproperties;
