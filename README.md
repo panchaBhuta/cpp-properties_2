@@ -8,6 +8,12 @@ cpp-properties uses CMake build system (http://www.cmake.org/).
 ./build.sh
 ```
 
+## How to install
+cpp-properties can be installed using the following command:
+
+    ./install.sh '/path/to/install/dir/'
+
+
 ## Examples
 __input.properties__
 ```

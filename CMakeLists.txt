@@ -15,7 +15,7 @@ target_include_directories(cppproperties
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${CMAKE_CURRENT_BINARY_DIR})
+        ${CMAKE_CURRENT_BINARY_DIR}/autogen)
 
 target_compile_options(cppproperties
     PRIVATE
@@ -57,7 +57,8 @@ configure_package_config_file(
     INSTALL_DESTINATION lib/cmake/cppproperties/)
 
 include(GenerateExportHeader)
-generate_export_header(cppproperties EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/cpp-properties/exports/cppproperties_export.h)
+generate_export_header(cppproperties
+    EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/autogen/cpp-properties/exports/cppproperties_export.h)
 
 install(TARGETS cppproperties
     EXPORT cpppropertiesTargets
@@ -68,11 +69,12 @@ install(TARGETS cppproperties
 install(DIRECTORY include/ DESTINATION include)
 
 install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/cpp-properties/exports/cppproperties_export.h DESTINATION include/cpp-properties/exports/)
+        ${CMAKE_CURRENT_BINARY_DIR}/autogen/cpp-properties/exports/cppproperties_export.h
+    DESTINATION include/cpp-properties/exports/)
 
 install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/cmake/cpppropertiesConfig.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/cmake/cpppropertiesConfigVersion.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/cmake/cpppropertiesConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/cmake/cpppropertiesConfigVersion.cmake
     DESTINATION lib/cmake/cppproperties/)
 
 install(EXPORT cpppropertiesTargets
@@ -91,13 +93,13 @@ if(ENABLE_TEST)
     if(GTEST_FOUND)
         target_include_directories(cppproperties_unittests
                                         PUBLIC ${GTEST_INCLUDE_DIRS}
-                                        PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+                                        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/autogen)
         target_link_libraries(cppproperties_unittests PRIVATE ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
     else()
         add_subdirectory(lib/gtest-1.7.0)
         target_include_directories(cppproperties_unittests
                                         PUBLIC ${gtest_SOURCE_DIR}/include
-                                        PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+                                        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/autogen)
         target_link_libraries(cppproperties_unittests PRIVATE gtest gtest_main)
     endif()
 

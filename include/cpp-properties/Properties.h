@@ -1,4 +1,10 @@
 /*
+ * Properties.h
+ *
+ * URL:      https://github.com/panchaBhuta/cpp-properties_RecVar
+ * Version:  2.0.rv-1.0
+ *
+ * Copyright (C) 2022 Gautam Dhar
  * Copyright (c) 2014 Fredy Wijaya
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
